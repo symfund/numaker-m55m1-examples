@@ -39,6 +39,11 @@
 
 #include "Profiler.hpp"
 
+#if defined(GPIO_INT_BUTTON)
+extern volatile uint8_t button0Pressed;
+extern volatile uint8_t button1Pressed;
+#endif
+
 namespace arm
 {
 namespace app
@@ -220,6 +225,20 @@ int main()
 
     while (1)
     {
+#if defined(GPIO_INT_BUTTON)
+			if (button0Pressed)
+			{
+				button0Pressed = 0;
+				printf("BUTTON 0 pressed\n");
+			}
+			
+			if (button1Pressed)
+			{
+				button1Pressed = 0;
+				printf("BUTTON 1 pressed\n");
+			}
+#endif
+			
 		//Quantize input tensor data. set all input vaule to 0.5
 		auto *signed_req_data = static_cast<int8_t *>(inputTensor->data.data);
 		for (size_t i = 0; i < inputTensor->bytes; i++)

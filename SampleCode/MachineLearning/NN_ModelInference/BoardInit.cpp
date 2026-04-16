@@ -17,6 +17,10 @@
 #define DESIGN_NAME "M55M1"
 #define HYPERRAM_SPIM_PORT SPIM0        //For NuMaker-M55M1 board
 
+#if defined(GPIO_INT_BUTTON)
+extern "C" void button_init(void);
+#endif
+
 static void SDCard_PinConfig(void)
 {
 	/* Set multi-function pin for SDH */
@@ -135,6 +139,10 @@ int BoardInit(void)
 
     /* Print target design info */
     info("Target system: %s\n", DESIGN_NAME);
+		
+#if defined(GPIO_INT_BUTTON)
+		button_init();
+#endif
 
     return 0;
 }
